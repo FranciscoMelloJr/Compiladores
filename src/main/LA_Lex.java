@@ -4,7 +4,7 @@ public class LA_Lex {
 
 	LeitorDeArquivosTexto ldat;
 
-	char[] buffer_A;
+/*	char[] buffer_A;
 	char[] buffer_B;
 	char[] buffer;
 	int ponteiro = 0;
@@ -12,14 +12,48 @@ public class LA_Lex {
 	int bufferSize = 50;
 	boolean endOfReading = false;
 	boolean endOfProgram = false;
-
+*/
 	public LA_Lex(String arquivo) {
 		ldat = new LeitorDeArquivosTexto(arquivo);
-		carregaBuffer(buffer_A);
-		buffer = buffer_A;
+		/*		carregaBuffer(buffer_A);
+	buffer = buffer_A;
+*/		}
+	
+	public Token proximoToken() {
+
+		int caractereLido = -1;
+		while ((caractereLido = ldat.lerProximoCaractere()) != -1) {
+			char c = (char) caractereLido;
+
+			if (c != ' ' && c != '\n') {
+				switch (c) {
+				case ':': return new Token(TipoToken.Delim, ":");
+				case '*': return new Token(TipoToken.OpAritMult, "*");
+				case '/': return new Token(TipoToken.OpAritDiv, "/");
+				case '+': return new Token(TipoToken.OpAritSoma, "+");
+				case '-': return new Token(TipoToken.OpAritSub, "-");
+				case '(': return new Token(TipoToken.AbrePar, "(");
+				case ')': return new Token(TipoToken.FechaPar, ")");
+
+				case '>':
+					c = (char) ldat.lerProximoCaractere();
+					if (c == '=') return new Token(TipoToken.OpRelMaiorIgual, ">=");					
+					else return new Token(TipoToken.OpRelMaior, ">");
+				case '<':
+					c = (char) ldat.lerProximoCaractere();
+					if (c == '=') {
+						return new Token(TipoToken.OpRelMenorIgual, "<=");
+					} else if (c == '>') {						
+						return new Token(TipoToken.OpRelDif, "<>");
+					}
+					return new Token(TipoToken.OpRelMenor, "<");
+				}
+			}	
+		}
+		return null;
 	}
 
-	public void carregaBuffer(char[] bufferAux) {
+	/*	public void carregaBuffer(char[] bufferAux) {
 		if (bufferAux == buffer_A) {
 			bufferAux = buffer_A = new char[bufferSize];
 		} else {
@@ -72,8 +106,8 @@ public class LA_Lex {
 		}
 		return "buffer_B";
 	}
-
-	public Token proximoToken() {
+	
+	public Token proximoTokenBuffer() {
 
 		for (int i = ponteiro; i < buffer.length; i++) {
 
@@ -123,5 +157,5 @@ public class LA_Lex {
 
 		return null;
 	}
-
+	*/
 }
