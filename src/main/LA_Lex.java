@@ -34,25 +34,29 @@ public class LA_Lex {
 				case '-': return new Token(TipoToken.OpAritSub, "-");
 				case '(': return new Token(TipoToken.AbrePar, "(");
 				case ')': return new Token(TipoToken.FechaPar, ")");
-
 				case '>':
 					c = (char) ldat.lerProximoCaractere();
 					if (c == '=') return new Token(TipoToken.OpRelMaiorIgual, ">=");					
-					else return new Token(TipoToken.OpRelMaior, ">");
+					else {
+							ldat.retroceder();
+							return new Token(TipoToken.OpRelMaior, ">");
+					}
 				case '<':
 					c = (char) ldat.lerProximoCaractere();
 					if (c == '=') {
 						return new Token(TipoToken.OpRelMenorIgual, "<=");
 					} else if (c == '>') {						
 						return new Token(TipoToken.OpRelDif, "<>");
+					} else { 
+						ldat.retroceder();
+						return new Token(TipoToken.OpRelMenor, "<");
 					}
-					return new Token(TipoToken.OpRelMenor, "<");
 				}
 			}	
 		}
 		return null;
 	}
-
+	
 	/*	public void carregaBuffer(char[] bufferAux) {
 		if (bufferAux == buffer_A) {
 			bufferAux = buffer_A = new char[bufferSize];
