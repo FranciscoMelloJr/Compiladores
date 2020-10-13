@@ -7,9 +7,12 @@ import java.io.InputStream;
 public class LeitorDeArquivosTexto {
 
 	InputStream istr;
-	private final static int TAMANHO_BUFFER = 5;
+	private final static int TAMANHO_BUFFER = 20;
 	int[] bufferDeLeitura;
 	int ponteiro;
+	int bufferAtual;
+	int inicioLexema;
+	private String lexema;
 
 	public LeitorDeArquivosTexto(String arquivo) {
 		try {
@@ -21,7 +24,10 @@ public class LeitorDeArquivosTexto {
 	}
 
 	private void inicializarBuffer() {
-
+		
+		bufferAtual = 2 ;
+		inicioLexema = 0;
+		lexema = "";
 		bufferDeLeitura = new int[TAMANHO_BUFFER * 2];
 		ponteiro = 0;
 		recarregarBuffer1();
@@ -48,6 +54,9 @@ public class LeitorDeArquivosTexto {
 
 	private void recarregarBuffer1() {
 
+		if (bufferAtual == 2) {
+			bufferAtual = 1;
+		
 		try {
 			for (int i = 0; i < TAMANHO_BUFFER; i++) {
 				bufferDeLeitura[i] = istr.read();
@@ -57,11 +66,14 @@ public class LeitorDeArquivosTexto {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace(System.err);
+			}
 		}
 	}
-
 	private void recarregarBuffer2() {
 
+		if (bufferAtual == 1) {
+			bufferAtual = 2;
+			
 		try {
 			for (int i = TAMANHO_BUFFER; i < TAMANHO_BUFFER * 2; i++) {
 				bufferDeLeitura[i] = istr.read();
@@ -71,14 +83,15 @@ public class LeitorDeArquivosTexto {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace(System.err);
+			}
 		}
-
 	}
 
 	public int lerProximoCaractere() {
 
 		int c = lerCaractereDoBuffer();
 		System.out.print((char)c);
+		lexema = lexema + (char)c;
 		return c;
 		
 		/*	try {
@@ -96,6 +109,7 @@ public class LeitorDeArquivosTexto {
 	public void retroceder() {
 		
 		ponteiro--;
+		lexema= lexema.substring(0, lexema.length()-1);
 		if (ponteiro <0) {
 			ponteiro = TAMANHO_BUFFER * 2 -1 ;
 		}
