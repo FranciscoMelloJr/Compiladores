@@ -4,7 +4,6 @@ public class Buffer {
 
 	public boolean duplo;
 	public int[] vetor;
-	public int atual;
 	public int ponteiro;
 
 	public Buffer(int tamanho) {
@@ -31,14 +30,6 @@ public class Buffer {
 
 	public void setDuplo(boolean duplo) {
 		this.duplo = duplo;
-	}
-
-	public int getAtual() {
-		return atual;
-	}
-
-	public void setAtual(int atual) {
-		this.atual = atual;
 	}
 
 	public int getPonteiro() {
