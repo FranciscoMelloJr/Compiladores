@@ -7,8 +7,10 @@ public class Buffer {
 	public int atual;
 	public int ponteiro;
 
-	public Buffer() {
-
+	public Buffer(int tamanho) {
+		vetor = new int [tamanho*2];
+		this.duplo = true;
+		this.ponteiro = 0;
 	}
 
 	public void retrocederPonteiro() {

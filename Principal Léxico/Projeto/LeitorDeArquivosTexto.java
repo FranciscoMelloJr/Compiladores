@@ -8,33 +8,30 @@ public class LeitorDeArquivosTexto {
 
 	InputStream inputs;
 	private final static int TAMANHO_BUFFER = 20;
-	Buffer buffer = new Buffer();
+	Buffer buffer = new Buffer(TAMANHO_BUFFER);
 	int inicioLexema;
 	private String lexema;
 
 	public LeitorDeArquivosTexto(String arquivo) {
 		try {
 			inputs = new FileInputStream(new File(arquivo));
-			inicializarBuffer();
+			inicializarLexema();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void inicializarBuffer() {
+	private void inicializarLexema() {
 
-		buffer.duplo = true;
 		inicioLexema = 0;
 		lexema = "";
-		buffer.setTamanho(TAMANHO_BUFFER * 2);
-		buffer.setPonteiro(0);
-		recarregarBuffer1();
+		recarregarBuffer0();
 
 	}
 
 	private int lerCaractereDoBuffer() {
 
-		int ret = buffer.getPonteiro();
+		int ret = buffer.vetor[buffer.getPonteiro()];
 		incrementarPonteiro();
 		return ret;
 	}
@@ -43,14 +40,14 @@ public class LeitorDeArquivosTexto {
 
 		buffer.incrementaPonteiro();
 		if (buffer.getPonteiro() == TAMANHO_BUFFER) {
-			recarregarBuffer2();
-		} else if (buffer.getPonteiro() == TAMANHO_BUFFER * 2) {
 			recarregarBuffer1();
+		} else if (buffer.getPonteiro() == TAMANHO_BUFFER * 2) {
+			recarregarBuffer0();
 			buffer.setPonteiro(0);
 		}
 	}
 
-	private void recarregarBuffer1() {
+	private void recarregarBuffer0() {
 
 		if (buffer.isDuplo()) {
 			buffer.setDuplo(false);
@@ -68,7 +65,7 @@ public class LeitorDeArquivosTexto {
 		}
 	}
 
-	private void recarregarBuffer2() {
+	private void recarregarBuffer1() {
 
 		if (!buffer.isDuplo()) {
 			buffer.setDuplo(true);
