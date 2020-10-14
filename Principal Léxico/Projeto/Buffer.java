@@ -27,7 +27,6 @@ public class Buffer {
 
 	public void setTamanho(int num) {
 		this.vetor = new int[num];
-
 	}
 
 	public void setDuplo(boolean duplo) {
