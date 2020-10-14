@@ -1,0 +1,51 @@
+package Projeto;
+
+public class Buffer {
+
+	public boolean duplo;
+	public int[] vetor;
+	public int atual;
+	public int ponteiro;
+
+	public Buffer() {
+
+	}
+
+	public void retrocederPonteiro() {
+		this.ponteiro--;
+	}
+
+	public void incrementaPonteiro() {
+		this.ponteiro++;
+	}
+
+	public boolean isDuplo() {
+		return duplo;
+	}
+
+	public void setTamanho(int num) {
+		this.vetor = new int[num];
+
+	}
+
+	public void setDuplo(boolean duplo) {
+		this.duplo = duplo;
+	}
+
+	public int getAtual() {
+		return atual;
+	}
+
+	public void setAtual(int atual) {
+		this.atual = atual;
+	}
+
+	public int getPonteiro() {
+		return ponteiro;
+	}
+
+	public void setPonteiro(int ponteiro) {
+		this.ponteiro = ponteiro;
+	}
+
+}

@@ -10,7 +10,7 @@ LER argt
 % atribuindo o argumento ao fatorial
 ATRIBUIR argt A ftr
 SE argt = 0 ENTAO ATRIBUIR 1 A ftr
-ENQUANTO argt <> 1
+ENQUANTO argt <> 1000
 	INICIO
 		ATRIBUIR ftr * (argt - 1) A ftr
 		ATRIBUIR argt - 1 A argt
