@@ -9,31 +9,22 @@ public class LeitorDeArquivosTexto {
 	InputStream inputs;
 	private final static int TAMANHO_BUFFER = 20;
 	Buffer buffer = new Buffer(TAMANHO_BUFFER);
-	int inicioLexema;
-	private String lexema;
+	Lexema lexema = new Lexema();
 
 	public LeitorDeArquivosTexto(String arquivo) {
 		try {
 			inputs = new FileInputStream(new File(arquivo));
-			inicializarLexema();
+			recarregarBuffer0();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void inicializarLexema() {
-
-		inicioLexema = 0;
-		lexema = "";
-		recarregarBuffer0();
-
-	}
-
 	private int lerCaractereDoBuffer() {
 
-		int ret = buffer.vetor[buffer.getPonteiro()];
+		int caractere = buffer.vetor[buffer.getPonteiro()];
 		incrementarPonteiro();
-		return ret;
+		return caractere;
 	}
 
 	private void incrementarPonteiro() {
@@ -85,17 +76,17 @@ public class LeitorDeArquivosTexto {
 
 	public int lerProximoCaractere() {
 
-		int c = lerCaractereDoBuffer();
-		System.out.print((char) c);
-		lexema = lexema + (char) c;
-		return c;
+		int caractere = lerCaractereDoBuffer();
+		System.out.print((char) caractere);
+		lexema.setNome(lexema.getNome() + (char) caractere);
+		return caractere;
 
 	}
 
 	public void retroceder() {
 
 		buffer.retrocederPonteiro();
-		lexema = lexema.substring(0, lexema.length() - 1);
+		lexema.setNome(lexema.getNome().substring(0, lexema.getNome().length() - 1));
 		if (buffer.getPonteiro() < 0) {
 			buffer.setPonteiro(TAMANHO_BUFFER * 2 - 1);
 		}
