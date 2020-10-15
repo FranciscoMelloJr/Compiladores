@@ -2,16 +2,16 @@ package Projeto;
 
 public class LA_Lex {
 	
-	LeitorDeArquivosTexto leitor;
+	LeitorTXT reader;
 
 		public LA_Lex(String arquivo) {
-			leitor = new LeitorDeArquivosTexto(arquivo);
+			reader = new LeitorTXT(arquivo);
 			}
 		
 		public Token proximoToken() {
 
 			int caractereLido = -1;
-			while ((caractereLido = leitor.lerProximoCaractere()) != -1) {
+			while ((caractereLido = reader.lerProximoCaractere()) != -1) {
 				char c = (char) caractereLido;
 
 				if (c != ' ' && c != '\n') {
@@ -24,20 +24,20 @@ public class LA_Lex {
 					case '(': return new Token(TipoToken.AbreParent, "(");
 					case ')': return new Token(TipoToken.FechaParent, ")");
 					case '>':
-						c = (char) leitor.lerProximoCaractere();
+						c = (char) reader.lerProximoCaractere();
 						if (c == '=') return new Token(TipoToken.ORMaiorIgual, ">=");					
 						else {
-								leitor.retroceder();
+								reader.retroceder();
 								return new Token(TipoToken.ORMaior, ">");
 						}
 					case '<':
-						c = (char) leitor.lerProximoCaractere();
+						c = (char) reader.lerProximoCaractere();
 						if (c == '=') {
 							return new Token(TipoToken.ORMenorIgual, "<=");
 						} else if (c == '>') {						
 							return new Token(TipoToken.ORDiferente, "<>");
 						} else { 
-							leitor.retroceder();
+							reader.retroceder();
 							return new Token(TipoToken.ORMenor, "<");
 						}
 					}
