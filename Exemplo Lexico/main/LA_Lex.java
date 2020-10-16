@@ -8,6 +8,18 @@ public class LA_Lex {
 		ldat = new LeitorDeArquivosTexto(arquivo);
 	}
 	
+//	public Token proximoToken() {
+//		Token proximo = null;
+//	}
+	
+	private Token fim() {
+		int caractereLido = ldat.lerProximoCaractere();
+		if (caractereLido == -1) {
+			return new Token(TipoToken.Fim,"Fim");
+		}
+		return null;
+	}
+	
 	private Token palavrasChave() {
 		
 		while(true) {
