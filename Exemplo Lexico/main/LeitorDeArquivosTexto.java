@@ -13,6 +13,48 @@ public class LeitorDeArquivosTexto {
 	int bufferAtual;
 	int inicioLexema;
 	private String lexema;
+	
+	@Override
+	public String toString() {
+		String ret = "Buffer:[";
+		for (int i : bufferDeLeitura) {
+			char c = (char) i;
+			if (Character.isWhitespace(c)) {
+				ret += ' ';
+			}else {
+				ret += (char) i;
+			}
+		}
+		
+		ret += "]\n";
+		ret += "     ";
+		
+		for (int i=0; i < TAMANHO_BUFFER * 2; i++) {
+			if (i == inicioLexema && i == ponteiro) {
+				ret += "%";
+			} else if (i==inicioLexema) {
+				ret+= "^";
+			} else if ( i == ponteiro ) {
+				ret += "*";
+			}else {
+				ret += " ";
+			}
+		}
+		return ret;
+	}
+	
+	public void confirmar() {
+		inicioLexema = ponteiro;
+		
+	}
+	public void zerar() {
+		ponteiro = inicioLexema;
+		lexema = "";
+	}
+	
+	public String getLexema() {
+		return lexema;
+	}
 
 	public LeitorDeArquivosTexto(String arquivo) {
 		try {
@@ -93,17 +135,7 @@ public class LeitorDeArquivosTexto {
 		System.out.print((char)c);
 		lexema = lexema + (char)c;
 		return c;
-		
-		/*	try {
-			int ret = istr.read();
-			System.out.print((char) ret);
-			return ret;
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-			return -1;
-		}
-	}
-		 */
+
 		}
 	
 	public void retroceder() {
@@ -114,5 +146,5 @@ public class LeitorDeArquivosTexto {
 			ponteiro = TAMANHO_BUFFER * 2 -1 ;
 		}
 	}
-	
+		
 }
