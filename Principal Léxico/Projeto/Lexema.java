@@ -10,6 +10,16 @@ public class Lexema {
 		this.nome = "";
 
 	}
+	
+	public void confirmar(Buffer buffer) {
+		inicio = buffer.getPonteiro();
+		
+	}
+	
+	public void  zerar(Buffer buffer) {
+		buffer.setPonteiro(this.inicio);
+		nome = "";
+	}
 
 	public String getNome() {
 		return nome;
