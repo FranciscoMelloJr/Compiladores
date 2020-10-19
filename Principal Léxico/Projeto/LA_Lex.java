@@ -10,8 +10,8 @@ public class LA_Lex {
 		}
 		
 		private Token fim() {
-			int caractereLido = ldat.lerProximoCaractere();
-			if (caractereLido == -1) {
+			int caractere = reader.lerProximoCaractere();
+			if (caractere == -1) {
 				return new Token(TipoToken.Fim,"Fim");
 			}
 			return null;
@@ -20,42 +20,27 @@ public class LA_Lex {
 		private Token palavrasChave() {
 			
 			while(true) {
-				char c = (char) ldat.lerProximoCaractere();
-				if(!Character.isLetter(c)) {
-					ldat.retroceder();
-					String lexema=ldat.getLexema();
-					if (lexema.equals("DECLARACOES")) {
-						return new Token(TipoToken.PCDeclaracoes,lexema);
-					} else if (lexema.equals("ALGORITMO")) {
-						return new Token(TipoToken.PCAlgoritmo,lexema);
-					} else if (lexema.equals("INT")) {
-						return new Token(TipoToken.PCInteiro,lexema);
-					} else if (lexema.equals("REAL")) {
-						return new Token(TipoToken.PCReal,lexema);
-					} else if (lexema.equals("ATRIBUIR")) {
-						return new Token(TipoToken.PCAtribuir,lexema);
-					} else if (lexema.equals("A")) {
-						return new Token(TipoToken.PCA,lexema);
-					} else if (lexema.equals("LER")) {
-						return new Token(TipoToken.PCLer,lexema);
-					} else if (lexema.equals("IMPRIMIR")) {
-						return new Token(TipoToken.PCImprimir,lexema);
-					} else if (lexema.equals("SE")) {
-						return new Token(TipoToken.PCSe,lexema);
-					} else if (lexema.equals("ENTAO")) {
-						return new Token(TipoToken.PCEntao,lexema);
-					} else if (lexema.equals("ENQUANTO")) {
-						return new Token(TipoToken.PCEnquanto,lexema);
-					} else if (lexema.equals("INICIO")) {
-						return new Token(TipoToken.PCInicio,lexema);
-					} else if (lexema.equals("FIM")) {
-						return new Token(TipoToken.PCFim,lexema);
-					} else if (lexema.equals("E")) {
-						return new Token(TipoToken.OpBoolE,lexema);
-					} else if (lexema.equals("OU")) {
-						return new Token(TipoToken.OpBoolOU,lexema);
-					} else {
-						return null;
+				char caractere = (char) reader.lerProximoCaractere();
+				if(!Character.isLetter(caractere)) {
+					reader.retroceder();
+					String lexema = reader.getLexema();
+					switch (lexema) {
+					case "DECLARACOES" : return new Token(TipoToken.PCDeclaracoes,lexema);
+					case "ALGORITMO" : return new Token(TipoToken.PCAlgoritmo,lexema);
+					case "INT" : return new Token(TipoToken.PCInteiro,lexema);
+					case "REAL" : return new Token(TipoToken.PCReal,lexema);
+					case "ATRIBUIR" : return new Token(TipoToken.PCAtribuir,lexema);
+					case "A" : return new Token(TipoToken.PCA,lexema);
+					case "LER" : return new Token(TipoToken.PCLer,lexema);
+					case "IMPRIMIR" : return new Token(TipoToken.PCImprimir,lexema);
+					case "SE" : return new Token(TipoToken.PCSe,lexema);
+					case "ENTAO" : return new Token(TipoToken.PCEntao,lexema);
+					case "ENQUANTO" : return new Token(TipoToken.PCEnquanto,lexema);
+					case "INICIO" : return new Token(TipoToken.PCInicio,lexema);
+					case "FIM" : return new Token(TipoToken.PCFim,lexema);
+					case "E" : return new Token(TipoToken.OBE,lexema);
+					case "OU" : return new Token(TipoToken.OBOU,lexema);
+					default : return null;
 					}
 				}
 			}
@@ -63,77 +48,49 @@ public class LA_Lex {
 		
 		private void espacosEComentarios() {
 			
-			int estado = 1 ;
+			int number = 1 ;
 			while (true) {
-				char c = (char) ldat.lerProximoCaractere();
-				if (estado == 1 ) {
-					if (Character.isWhitespace(c) || c == ' ') {
-						estado = 2;
-					} else if (c == '%') {
-						estado = 3;
-					} else {
-						ldat.retroceder();
-						return;
-					}
-				} else if (estado == 2) {
-					if ( c == '%') {
-						estado = 3;
-					} else if (!Character.isWhitespace(c) || c == ' ') {
-						ldat.retroceder();
-						return;
-					}
-				} else if (estado == 3) {
-					if (c == '\n') {
-						return;
-					}
+				char caractere = (char) reader.lerProximoCaractere();
+				switch (number) {
+				case 1 : if (Character.isWhitespace(caractere) || caractere == ' ') {number = 2;
+						}else if (caractere == '%') {number = 3;
+						}else {reader.retroceder();return;}
+				case 2 : if ( caractere == '%') {number = 3;
+						}else if (!Character.isWhitespace(caractere) || caractere == ' ') {
+						reader.retroceder();return;}
+				case 3 : if (caractere == '\n') return;	
 				}
 			}
 		}
+		
 		
 		private Token cadeia() {
-			int estado = 1 ;
-			while (true ) {
-				char c = (char) ldat.lerProximoCaractere();
-				if (estado == 1) {
-					if (c== '\'') {
-						estado = 2;
-				} else {
-					return null;
-				}
-			} else if (estado == 2) {
-				if (c == '\n') {
-					return null;
-				}
-				if (c=='\'') {
-					return new Token(TipoToken.Cadeia,ldat.getLexema());
-				} else if (c == '\\') {
-					estado = 3;
-				}
-			} else if (estado == 3) {
-				if (c == '\n') {
-					return null;
-				} else {
-					estado = 2 ;
+			
+			int number = 1 ;
+			while (true) {
+				char caractere = (char) reader.lerProximoCaractere();
+				switch (number) {
+				case 1 : if (caractere == '\'') {number = 2;
+						} else return null;
+				case 2 : if (caractere == '\n') return null;
+						 if (caractere =='\'') {return new Token(TipoToken.Cadeia,reader.getLexema());
+						}else if (caractere == '\\') number = 3;  //TESTAR FUNCIONALIDADE !!!
+				case 3 : if (caractere == '\n') {return null; //TESTAR FUNCIONALIDADE !!!
+						} else number = 2 ;  //TESTAR FUNCIONALIDADE !!!
 				}
 			}
 		}
-	}
-		
+	
 		private Token variavel() {
-			int estado = 1;
+			
+			int number = 1;
 			while (true) {
-				char c = (char) ldat.lerProximoCaractere();
-				if (estado == 1) {
-					if (Character.isLetter(c)) {
-						estado = 2;
-					} else {
-						return null;
-					}
-				} else if (estado == 2 ) {
-					if(!Character.isLetterOrDigit(c)) {
-						ldat.retroceder();
-						return new Token(TipoToken.Var,ldat.getLexema());
-					}
+				char caractere = (char) reader.lerProximoCaractere();
+				switch (number) {
+				case 1 : if (Character.isLetter(caractere)) {number= 2;
+						}else return null;
+				case 2 : if(!Character.isLetterOrDigit(caractere)) {reader.retroceder();
+						 return new Token(TipoToken.Variavel,reader.getLexema());}
 				}
 			}
 		}
@@ -147,12 +104,12 @@ public class LA_Lex {
 				case 1 : if (Character.isDigit(caractere)) {number = 2;
 						}else return null;
 				case 2 : if (caractere == '.') {caractere = (char) reader.lerProximoCaractere();
-						if (Character.isDigit(caractere)) {number = 3;
+						 if (Character.isDigit(caractere)) {number = 3;
 						}else return null;
-						} else if (!Character.isDigit(caractere)) {reader.retroceder();
-						return new Token(TipoToken.NInteiro,reader.getLexema());}
+						}else if (!Character.isDigit(caractere)) {reader.retroceder();
+						 return new Token(TipoToken.NInteiro,reader.getLexema());}
 				case 3 : if (!Character.isDigit(caractere)) {reader.retroceder();
-						return new Token(TipoToken.NReal, reader.getLexema());}
+						 return new Token(TipoToken.NReal, reader.getLexema());}
 				}
 			}
 		}
