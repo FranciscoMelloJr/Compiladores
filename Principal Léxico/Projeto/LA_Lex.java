@@ -9,6 +9,10 @@ public class LA_Lex {
 			
 		}
 		
+		public Token proximoToken() {
+			return null;
+		}
+		
 		private Token fim() {
 			int caractere = reader.lerProximoCaractere();
 			if (caractere == -1) {

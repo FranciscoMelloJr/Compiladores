@@ -6,56 +6,14 @@ import java.io.InputStream;
 
 public class LeitorDeArquivosTexto {
 
-	InputStream istr;
 	private final static int TAMANHO_BUFFER = 20;
+	InputStream istr;
 	int[] bufferDeLeitura;
 	int ponteiro;
 	int bufferAtual;
 	int inicioLexema;
 	private String lexema;
 	
-	@Override
-	public String toString() {
-		String ret = "Buffer:[";
-		for (int i : bufferDeLeitura) {
-			char c = (char) i;
-			if (Character.isWhitespace(c)) {
-				ret += ' ';
-			}else {
-				ret += (char) i;
-			}
-		}
-		
-		ret += "]\n";
-		ret += "     ";
-		
-		for (int i=0; i < TAMANHO_BUFFER * 2; i++) {
-			if (i == inicioLexema && i == ponteiro) {
-				ret += "%";
-			} else if (i==inicioLexema) {
-				ret+= "^";
-			} else if ( i == ponteiro ) {
-				ret += "*";
-			}else {
-				ret += " ";
-			}
-		}
-		return ret;
-	}
-	
-	public void confirmar() {
-		inicioLexema = ponteiro;
-		
-	}
-	public void zerar() {
-		ponteiro = inicioLexema;
-		lexema = "";
-	}
-	
-	public String getLexema() {
-		return lexema;
-	}
-
 	public LeitorDeArquivosTexto(String arquivo) {
 		try {
 			istr = new FileInputStream(new File(arquivo));
@@ -132,7 +90,7 @@ public class LeitorDeArquivosTexto {
 	public int lerProximoCaractere() {
 
 		int c = lerCaractereDoBuffer();
-		System.out.print((char)c);
+//		System.out.print((char)c);
 		lexema = lexema + (char)c;
 		return c;
 
@@ -146,5 +104,47 @@ public class LeitorDeArquivosTexto {
 			ponteiro = TAMANHO_BUFFER * 2 -1 ;
 		}
 	}
+	
+	public void zerar() {
+		ponteiro = inicioLexema;
+		lexema = "";
+	}
+	
+	public void confirmar() {
+		inicioLexema = ponteiro;
 		
+	}
+	
+	public String getLexema() {
+		return lexema;
+	}
+
+	@Override
+	public String toString() {
+		String ret = "Buffer:[";
+		for (int i : bufferDeLeitura) {
+			char c = (char) i;
+			if (Character.isWhitespace(c)) {
+				ret += ' ';
+			}else {
+				ret += (char) i;
+			}
+		}
+		
+		ret += "]\n";
+		ret += "     ";
+		
+		for (int i=0; i < TAMANHO_BUFFER * 2; i++) {
+			if (i == inicioLexema && i == ponteiro) {
+				ret += "%";
+			} else if (i==inicioLexema) {
+				ret+= "^";
+			} else if ( i == ponteiro ) {
+				ret += "*";
+			}else {
+				ret += " ";
+			}
+		}
+		return ret;
+	}
 }

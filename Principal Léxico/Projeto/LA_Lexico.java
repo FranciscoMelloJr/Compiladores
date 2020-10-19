@@ -6,7 +6,7 @@ public class LA_Lexico {
 		
 		LA_Lex lex = new LA_Lex(args[0]);
 		Token t = null;
-		while ((t = lex.proximoToken()) != null) {
+		while ((t = lex.proximoToken()).nome != TipoToken.Fim) {
 			System.out.print(t);
 		}
 	}

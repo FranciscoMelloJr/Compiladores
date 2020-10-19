@@ -8,9 +8,90 @@ public class LA_Lex {
 		ldat = new LeitorDeArquivosTexto(arquivo);
 	}
 	
-//	public Token proximoToken() {
-//		Token proximo = null;
-//	}
+	public Token proximoToken() {
+		
+		Token proximo = null;
+		espacosEComentarios();
+		ldat.confirmar();
+		//
+		// nao consegue ler 2 linhas de comentarios seguidos. VERIFICAR!!
+		//
+		proximo = fim();
+		
+		if(proximo == null) {
+			ldat.zerar();
+		} else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = palavrasChave();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = variavel();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = numeros();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = operadorAritmetico();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = operadorRelacional();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = delimitador();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = parenteses();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		proximo = cadeia();
+		
+		if (proximo == null) {
+			ldat.zerar();
+		}else {
+			ldat.confirmar();
+			return proximo;
+		}
+		System.err.println("Erro Léxico!");
+		System.err.println(ldat.toString());
+		return null;
+	}
 	
 	private Token fim() {
 		int caractereLido = ldat.lerProximoCaractere();
@@ -239,7 +320,7 @@ public class LA_Lex {
 		}
 	}
 	
-	public Token proximoToken() {
+	public Token proximoTokenLegacy() {
 
 		int caractereLido = -1;
 		while ((caractereLido = ldat.lerProximoCaractere()) != -1) {
@@ -276,16 +357,4 @@ public class LA_Lex {
 		}
 		return null;
 	}		
-	
-	public Token proximoTokenV2() {
-		
-		Token proximo = null;
-		espacosEComentarios();
-		ldat.confirmar();
-		//
-		// nao consegue ler 2 linhas de comentarios seguidos. VERIFICAR!!
-		//
-		proximo = fim();
-		
-	}
 }
