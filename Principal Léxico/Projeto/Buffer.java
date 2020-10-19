@@ -33,6 +33,11 @@ public class Buffer {
 		this.vetor = new int[num];
 	}
 
+	public int getTamanhoTotal() {
+		
+		return vetor.length;
+	}
+	
 	public void setDuplo(boolean duplo) {
 	
 		this.duplo = duplo;	

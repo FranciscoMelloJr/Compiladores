@@ -46,7 +46,7 @@ public class LeitorTXT {
 		buffer.incrementaPonteiro();
 		if (buffer.getPonteiro() == BUFFER_SIZE) {
 			recarregarBuffer1();
-		} else if (buffer.getPonteiro() == BUFFER_SIZE * 2) {
+		} else if (buffer.getPonteiro() == buffer.getTamanhoTotal()) {
 			recarregarBuffer0();
 			buffer.setPonteiro(0);
 			}
@@ -76,7 +76,7 @@ public class LeitorTXT {
 			buffer.setDuplo(true);
 
 			try {
-				for (int i = BUFFER_SIZE; i < BUFFER_SIZE * 2; i++) {
+				for (int i = BUFFER_SIZE; i < buffer.getTamanhoTotal(); i++) {
 					buffer.vetor[i] = inputs.read();
 					if (buffer.vetor[i] == -1) {
 						break;
@@ -93,7 +93,7 @@ public class LeitorTXT {
 		buffer.retrocederPonteiro();
 		lexema.setNome(lexema.getNome().substring(0, lexema.getNome().length() - 1));
 		if (buffer.getPonteiro() < 0) {
-			buffer.setPonteiro(BUFFER_SIZE * 2 - 1);	
+			buffer.setPonteiro(buffer.getTamanhoTotal() - 1);
 		}
 	}
 }
