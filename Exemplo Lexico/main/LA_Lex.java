@@ -276,4 +276,16 @@ public class LA_Lex {
 		}
 		return null;
 	}		
+	
+	public Token proximoTokenV2() {
+		
+		Token proximo = null;
+		espacosEComentarios();
+		ldat.confirmar();
+		//
+		// nao consegue ler 2 linhas de comentarios seguidos. VERIFICAR!!
+		//
+		proximo = fim();
+		
+	}
 }

@@ -138,34 +138,21 @@ public class LA_Lex {
 			}
 		}
 		
-		private Token numeros() {
-			
-			int estado = 1;
+		private Token numero() {
+					
+			int number = 1;
 			while (true) {
-				char c = (char) ldat.lerProximoCaractere();
-				if (estado == 1) {
-					if (Character.isDigit(c)) {
-						estado = 2;
-					} else {
-						return null;
-					}
-				} else if (estado == 2) {
-					if (c == '.') {
-						c = (char) ldat.lerProximoCaractere();
-						if (Character.isDigit(c)) {
-							estado = 3;
-						} else {
-							return null;
-						}
-					} else if (!Character.isDigit(c)) {
-						ldat.retroceder();
-						return new Token(TipoToken.NumInt,ldat.getLexema());
-					}
-				}else if ( estado == 3 ) {
-					if (!Character.isDigit(c)) {
-						ldat.retroceder();
-						return new Token(TipoToken.NumReal, ldat.getLexema());
-					}
+				char caractere = (char) reader.lerProximoCaractere();
+				switch (number) {
+				case 1 : if (Character.isDigit(caractere)) {number = 2;
+						}else return null;
+				case 2 : if (caractere == '.') {caractere = (char) reader.lerProximoCaractere();
+						if (Character.isDigit(caractere)) {number = 3;
+						}else return null;
+						} else if (!Character.isDigit(caractere)) {reader.retroceder();
+						return new Token(TipoToken.NInteiro,reader.getLexema());}
+				case 3 : if (!Character.isDigit(caractere)) {reader.retroceder();
+						return new Token(TipoToken.NReal, reader.getLexema());}
 				}
 			}
 		}

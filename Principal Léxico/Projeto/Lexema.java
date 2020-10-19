@@ -13,11 +13,11 @@ public class Lexema {
 	
 	public void confirmar(Buffer buffer) {
 		inicio = buffer.getPonteiro();
-		
+		nome = "";
 	}
 	
 	public void  zerar(Buffer buffer) {
-		buffer.setPonteiro(this.inicio);
+		buffer.setPonteiro(inicio);
 		nome = "";
 	}
 
