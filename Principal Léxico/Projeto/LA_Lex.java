@@ -12,7 +12,7 @@ public class LA_Lex {
 		public Token proximoToken() {
 			
 			Token token = null;
-			espacoEComentario(); // nao consegue ler 2 linhas de comentarios seguidos. VERIFICAR!!
+			espacoEComentario();
 			reader.confirmar();
 			
 			token = fim();
@@ -129,9 +129,9 @@ public class LA_Lex {
 						} else return null;
 				case 2 : if (caractere == '\n') return null;
 						 if (caractere =='\'') {return new Token(TipoToken.Cadeia,reader.getLexema());
-						}else if (caractere == '\\') number = 3;  //TESTAR FUNCIONALIDADE !!!
-				case 3 : if (caractere == '\n') {return null; //TESTAR FUNCIONALIDADE !!!
-						} else number = 2 ;  //TESTAR FUNCIONALIDADE !!!
+						}else if (caractere == '\\') number = 3;
+				case 3 : if (caractere == '\n') {return null;
+						} else number = 2 ;
 				}
 			}
 		}
