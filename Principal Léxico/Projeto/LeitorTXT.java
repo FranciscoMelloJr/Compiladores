@@ -24,7 +24,7 @@ public class LeitorTXT {
 	public int lerProximoCaractere() {
 
 		int caractere = lerCaractereDoBuffer();
-	//	System.out.print((char) caractere);
+//		System.out.print((char) caractere);
 		lexema.setNome(lexema.getNome() + (char) caractere);
 		return caractere;
 	}

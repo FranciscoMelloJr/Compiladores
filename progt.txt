@@ -3,7 +3,7 @@ argt:INT
 ftr:INT
 
 :ALGORITMO
-% Calcula o fatorial de um número inteiro e o imprime 
+% Calcula o fatorial de um numero inteiro e o imprime
 %Lendo o argumento fatorial
 LER argt
 % atribuindo o argumento ao fatorial

@@ -108,11 +108,16 @@ public class LA_Lex {
 				case 2 : if (caractere == '%') {number = 3;
 						}else if (!Character.isWhitespace(caractere) || caractere == ' ') {
 						reader.retroceder();return;}break;
-				case 3 : if (caractere == '\n') return;break;
+				case 3 : if (caractere == '\n'){
+							caractere = (char) reader.lerProximoCaractere();
+							if(!(caractere == '%')) {
+								reader.retroceder();
+								return;
+							}
+						}
 				}
 			}
 		}
-		
 		
 		private Token cadeia() {
 			
