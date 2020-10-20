@@ -8,15 +8,14 @@ public class Lexema {
 	public Lexema() {
 		this.inicio = 0;
 		this.nome = "";
-
 	}
 	
-	public void confirmar(Buffer buffer) {
+	public void doConfirmar(Buffer buffer) {
 		inicio = buffer.getPonteiro();
 		nome = "";
 	}
 	
-	public void  zerar(Buffer buffer) {
+	public void  doZerar(Buffer buffer) {
 		buffer.setPonteiro(inicio);
 		nome = "";
 	}

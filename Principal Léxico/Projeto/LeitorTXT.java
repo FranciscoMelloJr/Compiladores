@@ -10,7 +10,7 @@ public class LeitorTXT {
 	Buffer buffer = new Buffer(BUFFER_SIZE);
 	Lexema lexema = new Lexema();
 	InputStream inputs;
-
+	
 	public LeitorTXT(String arquivo) {
 		
 		try {
@@ -21,15 +21,10 @@ public class LeitorTXT {
 			}
 	}
 
-	public String getLexema() {
-	
-		return lexema.getNome();
-	}
-	
 	public int lerProximoCaractere() {
 
 		int caractere = lerCaractereDoBuffer();
-		System.out.print((char) caractere);
+	//	System.out.print((char) caractere);
 		lexema.setNome(lexema.getNome() + (char) caractere);
 		return caractere;
 	}
@@ -96,4 +91,20 @@ public class LeitorTXT {
 			buffer.setPonteiro(buffer.getTamanhoTotal() - 1);
 		}
 	}
+	
+	public String getLexema() {
+		
+		return lexema.getNome();
+	}
+	
+	public void confirmar() {
+		
+		lexema.doConfirmar(buffer);
+	}
+	
+	public void zerar() {
+		
+		lexema.doZerar(buffer);
+	}
+	
 }

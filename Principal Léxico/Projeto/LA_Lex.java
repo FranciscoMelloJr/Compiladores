@@ -10,6 +10,51 @@ public class LA_Lex {
 		}
 		
 		public Token proximoToken() {
+			
+			Token token = null;
+			espacoEComentario(); // nao consegue ler 2 linhas de comentarios seguidos. VERIFICAR!!
+			reader.confirmar();
+			
+			token = fim();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;		
+			token = palavraChave();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = variavel();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = numero();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = opAritmetico();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = opRelacional();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = delimitador();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = parenteses();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			token = cadeia();
+			if (!(zerarOUconfirmar(token) == null))
+				return token;
+			System.err.println("Erro Léxico!");
+			System.err.println(reader.toString());
+			return null;
+		}
+		
+		public Token zerarOUconfirmar(Token token) {
+			
+			if(token == null) {
+				reader.zerar();
+			} else {
+				reader.confirmar();
+				return token;
+			}
 			return null;
 		}
 		
@@ -21,7 +66,7 @@ public class LA_Lex {
 			return null;
 		}
 		
-		private Token palavrasChave() {
+		private Token palavraChave() {
 			
 			while(true) {
 				char caractere = (char) reader.lerProximoCaractere();
@@ -50,19 +95,20 @@ public class LA_Lex {
 			}
 		}
 		
-		private void espacosEComentarios() {
-			
+		private void espacoEComentario() {
+
+			System.out.println("");
 			int number = 1 ;
 			while (true) {
 				char caractere = (char) reader.lerProximoCaractere();
 				switch (number) {
 				case 1 : if (Character.isWhitespace(caractere) || caractere == ' ') {number = 2;
 						}else if (caractere == '%') {number = 3;
-						}else {reader.retroceder();return;}
-				case 2 : if ( caractere == '%') {number = 3;
+						}else {reader.retroceder();return;}break;
+				case 2 : if (caractere == '%') {number = 3;
 						}else if (!Character.isWhitespace(caractere) || caractere == ' ') {
-						reader.retroceder();return;}
-				case 3 : if (caractere == '\n') return;	
+						reader.retroceder();return;}break;
+				case 3 : if (caractere == '\n') return;break;
 				}
 			}
 		}
@@ -118,7 +164,7 @@ public class LA_Lex {
 			}
 		}
 		
-		private Token operadorRelacional() {
+		private Token opRelacional() {
 
 			char c = (char) reader.lerProximoCaractere();
 			switch (c) {
