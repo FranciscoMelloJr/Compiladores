@@ -15,39 +15,38 @@ public class LeitorTXT {
 		
 		try {
 			inputs = new FileInputStream(new File(arquivo));
-			recarregarBuffer0();
+			chargeBuffer0();
 		} catch (Exception e) {
 			e.printStackTrace();
 			}
 	}
 
-	public int lerProximoCaractere() {
+	public int nextCaracter() {
 
-		int caractere = lerCaractereDoBuffer();
-//		System.out.print((char) caractere);
+		int caractere = readCaracter();
 		lexema.setNome(lexema.getNome() + (char) caractere);
 		return caractere;
 	}
 
-	private int lerCaractereDoBuffer() {
+	private int readCaracter() {
 
 		int caractere = buffer.vetor[buffer.getPonteiro()];
-		incrementarPonteiro();
+		PonteiroPlus();
 		return caractere;
 	}
 
-	private void incrementarPonteiro() {
+	private void PonteiroPlus() {
 
 		buffer.incrementaPonteiro();
 		if (buffer.getPonteiro() == BUFFER_SIZE) {
-			recarregarBuffer1();
+			chargeBuffer1();
 		} else if (buffer.getPonteiro() == buffer.getTamanhoTotal()) {
-			recarregarBuffer0();
+			chargeBuffer0();
 			buffer.setPonteiro(0);
 			}
 	}
 
-	private void recarregarBuffer0() {
+	private void chargeBuffer0() {
 
 		if (buffer.isDuplo()) {
 			buffer.setDuplo(false);
@@ -65,7 +64,7 @@ public class LeitorTXT {
 		}
 	}
 
-	private void recarregarBuffer1() {
+	private void chargeBuffer1() {
 
 		if (!buffer.isDuplo()) {
 			buffer.setDuplo(true);
@@ -83,7 +82,7 @@ public class LeitorTXT {
 		}
 	}
 
-	public void retroceder() {
+	public void back() {
 
 		buffer.retrocederPonteiro();
 		lexema.setNome(lexema.getNome().substring(0, lexema.getNome().length() - 1));
